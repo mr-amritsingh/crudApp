@@ -32,6 +32,17 @@ function App() {
 
     }
 
+    const handleDelete= async(i)=>{
+      console.log(i)
+      await axios.delete(`/posts/${i}`)
+      const newData = data.filter((post) => {
+        return post.id !== i;
+      });
+  
+      setdata(newData);
+    }
+
+
    
 
 
@@ -40,7 +51,7 @@ function App() {
       <BrowserRouter>
       <Navbar/>
     <Routes>
-      <Route exact  path="/" element={<Posts data={data}/>} />
+      <Route exact  path="/" element={<Posts data={data} handleDelete={handleDelete}/>} />
       <Route exact path="/createPost" element={<CreatePost addData={addData}/>} />
     </Routes>
   </BrowserRouter>,
