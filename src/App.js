@@ -4,6 +4,7 @@ import './App.css';
 import Navbar from './Components/Navbar';
 import Posts from './Components/Posts';
 import CreatePost from './Components/CreatePost'
+import EditPost from './Components/EditPost'
 import {
   BrowserRouter,
   Routes,
@@ -28,7 +29,7 @@ function App() {
     const addData=async(newPost)=>{
       const response = await axios.post('/posts', newPost)
      // console.log(response.data)
-      setdata([...data,response.data])
+      setdata([response.data,...data])
 
     }
 
@@ -42,6 +43,15 @@ function App() {
       setdata(newData);
     }
 
+    const editPost=async(newPost)=>{
+      const response= await axios.put(`/posts/${newPost.id}`, newPost)
+      const {id} = response.data;
+      setdata(data.map(data1=>{
+        return data1.id===id?newPost:data1
+      }))
+    }
+
+
 
    
 
@@ -52,7 +62,8 @@ function App() {
       <Navbar/>
     <Routes>
       <Route exact  path="/" element={<Posts data={data} handleDelete={handleDelete}/>} />
-      <Route exact path="/createPost" element={<CreatePost addData={addData}/>} />
+      <Route exact path="/createPost" element={<CreatePost addData={addData} type='create'/>} />
+      <Route exact path="/editPost" element={<EditPost editPost={editPost} type='edit'/>} />
     </Routes>
   </BrowserRouter>,
 

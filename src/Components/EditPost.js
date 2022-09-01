@@ -1,19 +1,21 @@
 import React, {useState} from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function CreateUser(props) {
 
   const navigate = useNavigate();
+  const location = useLocation();
  
   const [post, setPost] = useState({
-    userId:1,
-    title:"",
-    body:""
+    id: location.state.id,
+    userId: location.state.userId,
+    title:location.state.title,
+    body:location.state.body
   })
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    props.addData(post);
+    props.editPost(post);
     navigate('/');
   }
   
@@ -28,7 +30,7 @@ function CreateUser(props) {
     <label htmlFor="exampleFormControlTextarea1">Body</label>
     <textarea className="form-control" value={post.body} onChange={(e)=>{setPost({...post,body:e.target.value})}} id="exampleFormControlTextarea1" placeholder='Enter Body' rows="3"></textarea>
   </div>
-  <button type="submit" onClick={handleSubmit} className="btn btn-primary">Create Post</button>
+  <button type="submit" onClick={handleSubmit} className="btn btn-primary">Update Post</button>
 </form>
     </div>
   )
